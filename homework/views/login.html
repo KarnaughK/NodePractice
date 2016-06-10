@@ -23,26 +23,6 @@
     </style>
     <script type="text/javascript">
         function login() {
-//            var username = $('#username').val();
-//            var password = $('#password').val();
-//            $.ajax({
-//                url: '/login',
-//                type: 'POST',
-//                data: data,
-//                success: function (data, status) {
-//                    if (status == 'success') {
-//                        location.href = 'home';
-//                        alert(data.msg);
-//                    }
-//                },
-//                error: function (data, status) {
-//                    if (status == "error") {
-//                        location.href = 'login';
-//                        alert("登录失败,请检查用户名和密码");
-//                    }
-//                }
-//            });
-
             var data = $(".form-horizontal").serialize();
             //$.post("接口位置","数据","回掉方法")
             $.post('/login', data, function (reData) {
@@ -59,7 +39,6 @@
 </head>
 <body>
 <div class="container web-body" style="margin-top:100px;width: 900px;">
-    <%- message %>
     <div class="row">
         <div class="col-lg-6 col-lg-offset-3">
             <div class="panel panel-default">
@@ -69,7 +48,10 @@
                 <div class="panel-body">
                     <form action="#" class="form-horizontal" role="form" method="post">
                         <div class="form-group">
+<<<<<<< HEAD
                             <input id="username" value="admin" type="text" class="form-control" name="username"
+=======
+>>>>>>> 7aaac16c310b1c2e3332b58c325381412c2895eb
                             <input id="username" value="" type="text" class="form-control" name="username"
                                    placeholder="用户名"/>
                         </div>

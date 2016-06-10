@@ -14,7 +14,6 @@ module.exports = function (app) {
                 //res.send是返回数据
                 //咱们代码约定返回值格式  status：返回是否成功
                 res.send({status: false, msg: error});
-                // console.log(error);
             } else if (!doc) {
                 res.send({status: false, msg: "用户名不存在"});
             } else if (req.body.password == doc.password) {

@@ -2,7 +2,7 @@ module.exports = {
     user: {
         name: {type: String, required: true},
         password: {type: String, required: true},
-        level: {type: int, required: true, default: 0}
+        level: {type: Number, default: 0, required: true}//级别
     },
     commodity: {
         name: String,
@@ -16,7 +16,7 @@ module.exports = {
         cPrice: {type: String},
         cImgSrc: {type: String},
         cQuantity: {type: Number},
-        cStatus: {type: Boolean, default: false}//是否购买了
+        cStatus: {type: Boolean, default: false}
     },
     textbook: {//教材
         bookId: {type: Number, required: true},//教材编号
