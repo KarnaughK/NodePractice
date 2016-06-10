@@ -23,7 +23,8 @@
     </style>
     <script type="text/javascript">
         function login() {
-//            var username = $('#username').val(), password = $('#password').val();
+//            var username = $('#username').val();
+//            var password = $('#password').val();
 //            $.ajax({
 //                url: '/login',
 //                type: 'POST',
@@ -41,11 +42,15 @@
 //                    }
 //                }
 //            });
+
             var data = $(".form-horizontal").serialize();
+            //$.post("接口位置","数据","回掉方法")
             $.post('/login', data, function (reData) {
                 if (reData && reData.status) {
+                    //javascript里的跳转网页
                     location.href = 'home';
                 } else {
+                    //弹出一个警告框
                     alert(reData.msg);
                 }
             });
