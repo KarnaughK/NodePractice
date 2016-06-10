@@ -9,7 +9,7 @@ module.exports = {
         price: Number,
         imgSrc: String
     },
-    cart: {
+    cart: {//记录（购物车&购买记录）
         uId: {type: String},
         cId: {type: String},
         cName: {type: String},
@@ -19,14 +19,13 @@ module.exports = {
         cStatus: {type: Boolean, default: false}
     },
     textbook: {//教材
-        Id: {type: Number, required: true},//教材编号
+        bookId: {type: Number, required: true},//教材编号
         name: String,//教材名
         price: Number,//价格
         press: String,//出版社
         supplier: String//供应商
     },
     speciality: {//专业
-        Id: {type: Number, required: true},//专业号
         name: String,//专业名
         Grade: Number,//年级
         department: String//院系
@@ -37,4 +36,8 @@ module.exports = {
         intime: {type: String},//入库时间
         outoftime: {type: String}//出库时间
     }
+    //发放记录
+    //班级 （年级id，院系id）
+    //年级
+    //院系
 };
