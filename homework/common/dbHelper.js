@@ -14,5 +14,3 @@ module.exports = {
 var _getModel = function (type) {
     return mongoose.model(type);
 };
-
-

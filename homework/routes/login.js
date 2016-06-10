@@ -9,7 +9,6 @@ module.exports = function (app) {
         User.findOne({name: uname}, function (error, doc) {
             if (error) {
                 res.send({status: false, msg: error});
-                console.log(error);
             } else if (!doc) {
                 res.send({status: false, msg: "用户名不存在"});
             } else if (req.body.upwd != doc.password) {
@@ -18,7 +17,6 @@ module.exports = function (app) {
                 req.session.user = doc;
                 res.send({status: false, msg: "登录成功!"});
             }
-
         });
     });
 }

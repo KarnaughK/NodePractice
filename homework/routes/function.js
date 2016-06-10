@@ -1,6 +1,3 @@
-/**
- * Created by karnaughk on 16/6/7.
- */
 exports.check_login = function (req, res) {
     if (req.session.user) {
         var Commodity = global.dbHelper.getModel('commodity');
@@ -11,4 +8,4 @@ exports.check_login = function (req, res) {
         req.session.error = "请先登录"
         res.redirect('/login');
     }
-}
+};
