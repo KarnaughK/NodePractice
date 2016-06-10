@@ -1,22 +1,17 @@
-module.exports = function ( app ) {
-    app.get('/home', function (req, res) {
-        if(req.session.user){
-            var Commodity = global.dbHelper.getModel('commodity');
-            Commodity.find({}, function (error, docs) {
-                res.render('home',{Commoditys:docs});
-            });
-        }else{
-            req.session.error = "请先登录"
-            res.redirect('/login');
-        }
-    });
-    app.get('/addcommodity',function(req, res, next) {
-        //
-        res.send();
-        //next();
-    },function(req, res) {
+var f = require("./function");
+module.exports = function (app) {
+
+    app.get('/home', f.check_login);
+
+    app.get('/addcommodity', function (req, res, next) {
+        //一些拦截
+        // res.send();
+        next();
+    }, function (req, res) {
         res.render('addcommodity');
-    } );
+    });
+
+
     app.post('/addcommodity', function (req, res) {
         var Commodity = global.dbHelper.getModel('commodity');
         Commodity.create({
@@ -26,7 +21,7 @@ module.exports = function ( app ) {
         }, function (error, doc) {
             if (doc) {
                 res.send(200);
-            }else{
+            } else {
                 res.send(404);
             }
         });
