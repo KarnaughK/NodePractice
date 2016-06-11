@@ -1,0 +1,22 @@
+
+.cart-body ul li {
+    list-style-type: none;
+    margin-left: -30px;
+    width: 870px;
+}
+
+.cart-body ul li div {
+    float: left;
+    height: 80px;
+}
+
+.li-checkbox input {
+    margin: 20px 5px 0 0;
+}
+
+.booktable-bookId {
+    width:100px;
+}
+.booktable-name {
+    width:150px;
+}

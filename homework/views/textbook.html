@@ -3,54 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/textbook.css" rel="stylesheet" media="screen">
     <script src="/javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
     <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
     <title>Title</title>
-    <style type="text/css">
-        .cart-heading {
-            height: 40px;
-            background-color: #EFEDED;
-        }
-
-        .cart-body {
-            background-color: #F7F7F7;
-        }
-
-        .cart-body ul li {
-            list-style-type: none;
-            margin-left: -30px;
-            width: 870px;
-        }
-
-        .cart-body ul li div {
-            float: left;
-            height: 80px;
-        }
-
-        .li-checkbox input {
-            margin: 20px 5px 0 0;
-        }
-
-        .li-content {
-            margin: 20px 0 0 30px;
-            width: 280px;
-        }
-
-        .li-price {
-            margin: 20px 0 0 60px;
-            width: 100px;
-        }
-
-        .li-quantity {
-            margin: 20px 0 0 130px;
-            width: 100px;
-        }
-
-        .li-del {
-            margin: 20px 0 0 30px;
-            width: 50px;
-        }
-    </style>
     <script type="text/javascript">
         function addTextBook() {
             var data = $("#addbook").serialize();
@@ -60,7 +16,26 @@
                 if (reData && reData.status) {
                     //刷新
                     location.reload();
-                    $('#myModal').modal('hide')
+                    $('#addModal').modal('hide')
+                } else {
+                    //弹出一个警告框
+                    alert(reData.msg);
+                }
+            });
+        }
+        //显示更新数据框
+        function showUpdate(bookinfo) {
+            alert(bookinfo._id);
+        }
+        function updateTextBook(bookid) {
+            var data = $("#updatebook").serialize();
+
+            //$.post("接口位置","数据","回掉方法")
+            $.post('/updatetextbook', data, function (reData) {
+                if (reData && reData.status) {
+                    //刷新
+                    location.reload();
+                    $('#addModal').modal('hide')
                 } else {
                     //弹出一个警告框
                     alert(reData.msg);
@@ -75,82 +50,107 @@
         <div>
             <div style="float:right;">
 
-                <button type="button" class="btn  btn-xs btn-success" data-toggle="modal" data-target="#myModal">
+                <button type="button" class="btn  btn-xs btn-success" data-toggle="modal" data-target="#addModal">
                     添加教材
                 </button>
             </div>
             <h2>教材信息管理</h2>
-            <hr>
         </div>
         <div>
-            <div class="cart-heading">
-                <div style="padding: 10px 0 0 10px">
-                    <span style="margin-right: 100px;">教材编号</span>
-                    <span style="margin-right: 150px;">教材名称</span>
-                    <span style="margin-right: 50px;">价格</span>
-                    <span style="margin-right: 150px;">出版社</span>
-                    <span style="padding-right: 0px;">供应商</span>
-                </div>
-            </div>
-            <div class="cart-body">
-                <ul>
-                    <%for(var i in book){%>
-                    <li>
-                        <div class="li-content">
-                            <a><%=book[i].bookId%></a>
-                        </div>
-                        <div class="li-content">
-                            <a><%=book[i].name%></a>
-                        </div>
-                        <div class="li-content">
-                            <span><%=book[i].price%></span>
-                        </div>
-                        <div class="li-content">
-                            <a><%=book[i].press%></a>
-                        </div>
-                        <div class="li-content">
-                            <a><%=book[i].supplier%></a>
-                        </div>
-                    </li>
-                    <%}%>
-                </ul>
-                <div style="float: right;height: 35px;width:330px;">
-                    <input type="button" style="width: 130px;float:right;" class="btn btn-success"
-                           onclick=" Clearing();" value="查询"/>
-                </div>
-            </div>
+            <table border="0" class="table table-striped">
+                <tr>
+                    <th class="booktable-bookId">教材编号</th>
+                    <th class="booktable-name">教材名称</th>
+                    <th class="booktable-price">价格</th>
+                    <th class="booktable-press">出版社</th>
+                    <th class="booktable-supplier">供应商</th>
+                    <th class="booktable-operate">操作</th>
+                </tr>
+                <%for(var i in book){%>
+                <tr>
+                    <td class="booktable-bookId"><%=book[i].bookId%></td>
+                    <td class="booktable-name"><%=book[i].name%></td>
+                    <td class="booktable-price"><%=book[i].price%>¥</td>
+                    <td class="booktable-press"><%=book[i].press%></td>
+                    <td class="booktable-supplier"><%=book[i].supplier%></td>
+                    <td class="booktable-operate">
+                        <button class="btn btn-primary btn-xs" onclick="showUpdate('<%=book[i]%>')">修改</button>
+                        <a href="/deletetextbook/<%=book[i]._id%>" class="btn btn-primary btn-xs">删除</a>
+                    </td>
+                </tr>
+                <%}%>
+            </table>
         </div>
     </div>
 </div>
 <!-- 添加教材弹出框 -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
     <div class="modal-dialog" role="document" style="width: 600px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">添加教材</h4>
+                <h4 class="modal-title" id="addModalLabel">添加教材</h4>
             </div>
             <div class="modal-body">
                 <form id="addbook" action="#" role="form" method="post">
                     <table border="0">
                         <tr>
                             <td>教材编号</td>
-                            <td><input style="margin: 10px;" type="text" class="form-control" name="bookid"/>
+                            <td><input style="margin: 10px;" type="text" class="form-control" name="bookId"/>
                             </td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;教材名称</td>
-                            <td><input style="margin: 10px;" type="text" class="form-control" name="cname"/>
+                            <td><input style="margin: 10px;" type="text" class="form-control" name="name"/>
                             </td>
                         </tr>
                         <tr>
                             <td>出版社</td>
-                            <td><input style="margin: 10px;" class="form-control" name="cprice"/></td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格</td>
-                            <td><input style="margin: 10px;" class="form-control" name="cprice"/></td>
+                            <td><input style="margin: 10px;" class="form-control" name="press"/></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格</td>
+                            <td><input style="margin: 10px;" class="form-control" name="price"/></td>
                         </tr>
                         <tr>
                             <td>供应商</td>
-                            <td><input style="margin: 10px;" class="form-control" name="cprice"/></td>
+                            <td><input style="margin: 10px;" class="form-control" name="supplier"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addTextBook()">添 加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 更新教材弹出框 -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel">
+    <div class="modal-dialog" role="document" style="width: 600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="updateModalLabel">添加教材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="updatebook" action="#" role="form" method="post">
+                    <table border="0">
+                        <tr>
+                            <td>教材编号</td>
+                            <td><input style="margin: 10px;" type="text" class="form-control" name="bookId"/>
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;教材名称</td>
+                            <td><input style="margin: 10px;" type="text" class="form-control" name="name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出版社</td>
+                            <td><input style="margin: 10px;" class="form-control" name="press"/></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格</td>
+                            <td><input style="margin: 10px;" class="form-control" name="price"/></td>
+                        </tr>
+                        <tr>
+                            <td>供应商</td>
+                            <td><input style="margin: 10px;" class="form-control" name="supplier"/></td>
                         </tr>
                     </table>
                 </form>
