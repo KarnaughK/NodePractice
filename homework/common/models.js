@@ -27,7 +27,7 @@ module.exports = {
     },
     speciality: {//专业
         name: String,//专业名
-        Grade: Number,//年级
+        grade: Number,//年级
         department: String//院系
     },
     warehouse: {//仓库
