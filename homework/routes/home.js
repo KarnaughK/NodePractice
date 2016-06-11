@@ -1,7 +1,15 @@
 var f = require("./function");
 module.exports = function (app) {
 
-    app.get('/home', f.check_login);
+    app.get('/home', function (req, res) {
+        if (f.needLogin(req,res)) {
+            return;
+        }
+        var Commodity = global.dbHelper.getModel('commodity');
+        Commodity.find({}, function (error, docs) {
+            res.render('home', {Commoditys: docs});
+        });
+    });
 
     app.get('/addcommodity', function (req, res, next) {
         //一些拦截

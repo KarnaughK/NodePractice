@@ -28,7 +28,7 @@
             $.post('/login', data, function (reData) {
                 if (reData && reData.status) {
                     //javascript里的跳转网页
-                    location.href = 'home';
+                    location.href = 'main';
                 } else {
                     //弹出一个警告框
                     alert(reData.msg);

@@ -1,0 +1,20 @@
+ul, li, a {
+    list-style: none;
+    text-decoration: none;
+    text-align: center;
+}
+
+.padding {
+    padding: 15px 20px 15px 150px;
+    float: left;
+}
+
+.tcay2130 {
+    font-size: 12px;
+}
+
+.title {
+    font-size: 18px;
+    color: #FFFFFF;
+}
+

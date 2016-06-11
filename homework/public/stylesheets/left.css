@@ -1,0 +1,39 @@
+﻿ul, li {
+    text-align: center;
+    text-decoration: none;
+    list-style: none;
+}
+
+a {
+    text-align: center;
+    text-decoration: none;
+    list-style: none;
+    border: none;
+}
+
+span {
+    color: #6699FF;
+}
+
+.menuLeft {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.menuLeft li {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    padding-bottom: 40px;
+}
+
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+.li-color {
+    background-color: #f5f5f5;
+
+}

@@ -5,4 +5,6 @@ module.exports = function (app) {
     require('./register')(app);
     require('./cart')(app);
     require('./main')(app);
+    require('./left')(app);
+    require('./top')(app);
 };

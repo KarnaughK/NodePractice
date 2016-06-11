@@ -18,7 +18,7 @@ module.exports = function (app) {
                 res.send({status: false, msg: "用户名不存在"});
             } else if (req.body.password == doc.password) {
                 req.session.user = doc;
-                res.send({status: false, msg: "登录成功!"});
+                res.send({status: true, msg: "登录成功!"});
             } else {
                 res.send({status: false, msg: "密码错误!"});
             }
