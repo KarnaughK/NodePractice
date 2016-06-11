@@ -46,7 +46,7 @@ module.exports = function (app) {
     app.post("/textbook/select", function (req, res) {
         //req.params.id 获取商品ID号
         var Cart = global.dbHelper.getModel('textbook');
-        Cart.findOne({"_id": req.body._id}, function (error, doc) {
+        Cart.findById(req.body._id, function (error, doc) {
             if (error) {
                 //res.send是返回数据
                 //约定返回值格式  status：返回是否成功 msg:消息 data:返回数据
@@ -63,13 +63,8 @@ module.exports = function (app) {
     app.post("/textbook/update", function (req, res) {
         //req.params.id 获取商品ID号
         var Cart = global.dbHelper.getModel('textbook');
-        Cart.remove({"_id": req.params.id}, function (error, doc) {
-            //成功返回1  失败返回0
-            if (doc > 0) {
-                res.redirect('/textbook');
-            }
-        });
-        Cart.findOne({"_id": req.body._id}, function (error, doc) {
+        //findById:根据_id去查询
+        Cart.findById(req.body._id, function (error, doc) {
             if (error) {
                 //res.send是返回数据
                 //约定返回值格式  status：返回是否成功 msg:消息 data:返回数据
