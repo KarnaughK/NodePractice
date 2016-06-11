@@ -6,20 +6,61 @@
     <script src="/javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
     <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
     <title>Title</title>
-    <style>
-        .bg-grey {
-            background-image: none !important;
-            background-color: #d9534f !important;
+    <style type="text/css">
+        .cart-heading {
+            height: 40px;
+            background-color: #EFEDED;
+        }
+
+        .cart-body {
+            background-color: #F7F7F7;
+        }
+
+        .cart-body ul li {
+            list-style-type: none;
+            margin-left: -30px;
+            width: 870px;
+        }
+
+        .cart-body ul li div {
+            float: left;
+            height: 80px;
+        }
+
+        .li-checkbox input {
+            margin: 20px 5px 0 0;
+        }
+
+        .li-content {
+            margin: 20px 0 0 30px;
+            width: 280px;
+        }
+
+        .li-price {
+            margin: 20px 0 0 60px;
+            width: 100px;
+        }
+
+        .li-quantity {
+            margin: 20px 0 0 130px;
+            width: 100px;
+        }
+
+        .li-del {
+            margin: 20px 0 0 30px;
+            width: 50px;
         }
     </style>
     <script type="text/javascript">
-        function login() {
-            var data = $(".form-horizontal").serialize();
+        function addTextBook() {
+            var data = $("#addbook").serialize();
+
             //$.post("接口位置","数据","回掉方法")
-            $.post('/login', data, function (reData) {
+            $.post('/addtextbook', data, function (reData) {
                 if (reData && reData.status) {
-                    //javascript里的跳转网页
-                    location.href = 'main';
+                    //刷新
+                    location.reload();
+                    $('#myModal').modal('hide')
                 } else {
                     //弹出一个警告框
                     alert(reData.msg);
@@ -30,36 +71,93 @@
 </head>
 <body>
 <div style="margin:50px auto;width: 900px;">
-    <div class="panel panel-default">
-        <div class="panel-heading" style="height: 40px;">
-            <div style="text-align: left">
-                <span style="font-size:20px; font-weight:bold;">商品展示页</span>
-                <div style="float: right;">
-                    <a class="btn  btn-xs btn-success" href="addcommodity" style="margin-right: 35px;">添加商品</a>
-                    <a class="btn  btn-xs btn-success" href="cart" style="margin-right: 35px;">购物车</a>
-                    <a class="btn btn-xs btn-info" href="logout">退 出</a>
+    <div>
+        <div>
+            <div style="float:right;">
+
+                <button type="button" class="btn  btn-xs btn-success" data-toggle="modal" data-target="#myModal">
+                    添加教材
+                </button>
+            </div>
+            <h2>教材信息管理</h2>
+            <hr>
+        </div>
+        <div>
+            <div class="cart-heading">
+                <div style="padding: 10px 0 0 10px">
+                    <span style="margin-right: 100px;">教材编号</span>
+                    <span style="margin-right: 150px;">教材名称</span>
+                    <span style="margin-right: 50px;">价格</span>
+                    <span style="margin-right: 150px;">出版社</span>
+                    <span style="padding-right: 0px;">供应商</span>
+                </div>
+            </div>
+            <div class="cart-body">
+                <ul>
+                    <%for(var i in book){%>
+                    <li>
+                        <div class="li-content">
+                            <a><%=book[i].bookId%></a>
+                        </div>
+                        <div class="li-content">
+                            <a><%=book[i].name%></a>
+                        </div>
+                        <div class="li-content">
+                            <span><%=book[i].price%></span>
+                        </div>
+                        <div class="li-content">
+                            <a><%=book[i].press%></a>
+                        </div>
+                        <div class="li-content">
+                            <a><%=book[i].supplier%></a>
+                        </div>
+                    </li>
+                    <%}%>
+                </ul>
+                <div style="float: right;height: 35px;width:330px;">
+                    <input type="button" style="width: 130px;float:right;" class="btn btn-success"
+                           onclick=" Clearing();" value="查询"/>
                 </div>
             </div>
         </div>
-        <div class="panel-body">
-            <ul class="spys">
-                <%for(var i in TextBook){%>
-                <% if(!TextBook[i].name)continue;%>
-                <li class="spys li">
-                    <div>
-                        <img width="80" height="100" src="/images/<%=TextBook[i].imgSrc%>">
-                    </div>
-                    <div>
-                        <a><%=TextBook[i].name%></a>
-                        <strong style="color:red;">￥<%=TextBook[i].price%></strong>
-                    </div>
-                    <div>
-                        <a class="btn btn-success" style="width: 120px;"
-                           href="/addToCart/<%=TextBook[i]._id%>">加入购物车</a>
-                    </div>
-                </li>
-                <%}%>
-            </ul>
+    </div>
+</div>
+<!-- 添加教材弹出框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加教材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addbook" action="#" role="form" method="post">
+                    <table border="0">
+                        <tr>
+                            <td>教材编号</td>
+                            <td><input style="margin: 10px;" type="text" class="form-control" name="bookid"/>
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;教材名称</td>
+                            <td><input style="margin: 10px;" type="text" class="form-control" name="cname"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出版社</td>
+                            <td><input style="margin: 10px;" class="form-control" name="cprice"/></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格</td>
+                            <td><input style="margin: 10px;" class="form-control" name="cprice"/></td>
+                        </tr>
+                        <tr>
+                            <td>供应商</td>
+                            <td><input style="margin: 10px;" class="form-control" name="cprice"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addTextBook()">添 加</button>
+            </div>
         </div>
     </div>
 </div>

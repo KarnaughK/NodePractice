@@ -7,4 +7,9 @@ module.exports = function (app) {
     require('./main')(app);
     require('./left')(app);
     require('./top')(app);
+    require('./college')(app);
+    require('./stock')(app);
+    require('./textbook')(app);
+    require('./usermanager')(app);
+    require('./welcome')(app);
 };
