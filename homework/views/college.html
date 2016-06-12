@@ -2,9 +2,189 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/department.css" rel="stylesheet" media="screen">
+    <script src="/javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
     <title>Title</title>
+    <script type="text/javascript">
+        $(function () {
+            $.post('/department/select', {}, function (reData) {
+                if (reData && reData.status) {
+                    var code = '';
+                    for (var i in reData.data) {
+                        code += '<TR><TD class="table-departmentId">' + reData.data[i]._id + '</TD><TD class="table-departmentName">' + reData.data[i].name + '</TD></TR>';
+                    }
+                    $("#departmentTable").innerHTML = code;
+                } else {
+                    //弹出一个警告框
+//                    alert(reData.msg);
+                }
+            });
+        });
+
+
+        function addDepartment() {
+            var data = $("#addDepartment").serialize();
+
+            //$.post("接口位置","数据","回掉方法")
+            $.post('/textbook/add', data, function (reData) {
+                if (reData && reData.status) {
+                    //刷新
+                    location.reload();
+                    $('#addModal').modal('hide')
+                } else {
+                    //弹出一个警告框
+                    alert(reData.msg);
+                }
+            });
+        }
+        //查询数据,并显示更新框
+        function showUpdate(bookid) {
+            $.post('/textbook/select', {_id: bookid}, function (reData) {
+                if (reData && reData.status) {
+                    //给弹出框各个输入框赋值
+                    $('#uBookId').val(reData.data.bookId)
+                    $('#uName').val(reData.data.name)
+                    $('#uPress').val(reData.data.press)
+                    $('#uPrice').val(reData.data.price)
+                    $('#uSupplier').val(reData.data.supplier);
+                    $('#uId').val(reData.data._id);
+
+                    //显示弹出框
+                    $('#updateModal').modal('show');
+                } else {
+                    //弹出一个警告框
+                    alert(reData.msg);
+                }
+            });
+        }
+        //更新数据
+        function updateTextBook() {
+            var data = $("#updatebook").serialize();
+
+            //$.post("接口位置","数据","回掉方法")
+            $.post('/textbook/update', data, function (reData) {
+                if (reData && reData.status) {
+                    $('#updateModal').modal('hide')
+                    //刷新
+                    location.reload();
+                } else {
+                    //弹出一个警告框
+                    alert(reData.msg);
+                }
+            });
+        }
+    </script>
 </head>
 <body>
+<div style="margin:50px auto;width: 95%;">
+    <div>
+        <div>
+            <div style="float:right;">
 
+                <button type="button" class="btn  btn-xs btn-success" data-toggle="modal" data-target="#addModal">
+                    添加教材
+                </button>
+            </div>
+            <h2>教材信息管理</h2>
+        </div>
+        <div style="background: #66ccff;width: 49%;float: left;height: 100px;">
+            <button type="button" style="float:top;" class="btn  btn-xs btn-success" data-toggle="modal"
+                    data-target="#addModal">
+                添加院系
+            </button>
+            <table id="departmentTable" style="float:top;" border="0" class="table table-striped">
+                <tr>
+                    <th class="table-departmentId">院系编号</th>
+                    <th class="table-departmentName">院系名称</th>
+                </tr>
+            </table>
+        </div>
+        <div id="professionDiv" style="background: #ccff66;width: 49%;float: right;height: 100px;">
+
+        </div>
+        <div id="gradeDiv" style="background: #66ccff;width: 49%;float: left;height: 100px;margin-top: 20px;">
+
+        </div>
+        <div id="classDiv" style="background: #ffcc66;width: 49%;float: right;height: 100px;margin-top: 20px;">
+
+        </div>
+    </div>
+</div>
+<!-- 添加教材弹出框 -->
+<div class="modal fade" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentLabel">
+    <div class="modal-dialog" role="document" style="width: 600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addDepartmentLabel">添加教材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addDepartment" action="#" role="form" method="post">
+                    <input style="margin: 10px;" type="text" class="form-control" name="name"/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addDepartment()">添 加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 更新教材弹出框 -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel">
+    <div class="modal-dialog" role="document" style="width: 600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="updateModalLabel">添加教材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="updatebook" action="#" role="form" method="post">
+                    <table border="0">
+                        <tr>
+                            <td>教材编号</td>
+                            <td>
+                                <input id="uBookId" style="margin: 10px;" type="text" class="form-control"
+                                       name="bookId" value=""/>
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;教材名称</td>
+                            <td>
+                                <input id="uName" style="margin: 10px;" type="text" class="form-control" name="name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出版社</td>
+                            <td>
+                                <input id="uPress" style="margin: 10px;" class="form-control" name="press"/>
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格</td>
+                            <td>
+                                <input id="uPrice" style="margin: 10px;" class="form-control" name="price"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>供应商</td>
+                            <td>
+                                <input id="uSupplier" style="margin: 10px;" class="form-control" name="supplier"/>
+                            </td>
+                            <td></td>
+                            <td>
+                                <!--注意。很关键。一个宽度为0px的看不到的input。用来存储_id字段的值-->
+                                <input id="uId" style="width: 0px;" name="_id"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="updateTextBook()">保 存</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

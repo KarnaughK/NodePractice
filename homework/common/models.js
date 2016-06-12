@@ -42,7 +42,7 @@ module.exports = {
         departmentName: String//院系名称
     },
     class: {//班级
-        name: String,//班级名
+        classname: String,//班级名
         gradeId: String,//年级id
         gradeName: String,//年级名称
         professionId: String,//专业id

@@ -9,7 +9,7 @@
     <title>Title</title>
     <script type="text/javascript">
         function addUserManager() {
-            var data = $("#adduser").serialize();
+            var data = $("#addusermanager").serialize();
 
             //$.post("接口位置","数据","回掉方法")
             $.post('/usermanager/add', data, function (reData) {
@@ -42,7 +42,7 @@
         }
         //更新数据
         function updateUserManager() {
-            var data = $("#updateuser").serialize();
+            var data = $("#updateusermanager").serialize();
 
             //$.post("接口位置","数据","回掉方法")
             $.post('/usermanager/update', data, function (reData) {
@@ -62,77 +62,26 @@
 <div style="margin:50px auto;width: 900px;">
     <div>
         <div>
-            <div style="float:right;">
-
-                <button type="button" class="btn  btn-xs btn-success" data-toggle="modal" data-target="#addModal">
-                    添加教材
-                </button>
-            </div>
-            <h2>教材信息管理</h2>
+            <h2>管理员信息管理</h2>
         </div>
         <div>
             <table border="0" class="table table-striped">
                 <tr>
-                    <th class="booktable-bookId">教材编号</th>
-                    <th class="booktable-name">教材名称</th>
-                    <th class="booktable-price">价格</th>
-                    <th class="booktable-press">出版社</th>
-                    <th class="booktable-supplier">供应商</th>
-                    <th class="booktable-operate">操作</th>
+                    <th class="usertable-name">用户名</th>
+                    <th class="usertable-password">密码</th>
+                    <th class="usertable-operate">操作</th>
                 </tr>
-                <%for(var i in book){%>
+                <%for(var i in user){%>
                 <tr>
-                    <td class="booktable-bookId"><%=book[i].bookId%></td>
-                    <td class="booktable-name"><%=book[i].name%></td>
-                    <td class="booktable-price"><%=book[i].price%>¥</td>
-                    <td class="booktable-press"><%=book[i].press%></td>
-                    <td class="booktable-supplier"><%=book[i].supplier%></td>
-                    <td class="booktable-operate">
-                        <button class="btn btn-primary btn-xs" onclick="showUpdate('<%=book[i]._id%>')">修改</button>
-                        <a href="/textbook/delete/<%=book[i]._id%>" class="btn btn-primary btn-xs">删除</a>
+                    <td class="usertable-name"><%=user[i].name%></td>
+                    <td class="usertable-password"><%=user[i].password%></td>
+                    <td class="usertable-operate">
+                        <button class="btn btn-primary btn-xs" onclick="showUpdate('<%=user[i]._id%>')">修改</button>
+                        <a href="/usermanager/delete/<%=user[i]._id%>" class="btn btn-primary btn-xs">删除</a>
                     </td>
                 </tr>
                 <%}%>
             </table>
-        </div>
-    </div>
-</div>
-<!-- 添加教材弹出框 -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
-    <div class="modal-dialog" role="document" style="width: 600px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addModalLabel">添加教材</h4>
-            </div>
-            <div class="modal-body">
-                <form id="addbook" action="#" role="form" method="post">
-                    <table border="0">
-                        <tr>
-                            <td>教材编号</td>
-                            <td><input style="margin: 10px;" type="text" class="form-control" name="bookId"/>
-                            </td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;教材名称</td>
-                            <td><input style="margin: 10px;" type="text" class="form-control" name="name"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>出版社</td>
-                            <td><input style="margin: 10px;" class="form-control" name="press"/></td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格</td>
-                            <td><input style="margin: 10px;" class="form-control" name="price"/></td>
-                        </tr>
-                        <tr>
-                            <td>供应商</td>
-                            <td><input style="margin: 10px;" class="form-control" name="supplier"/></td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="addTextBook()">添 加</button>
-            </div>
         </div>
     </div>
 </div>
@@ -144,7 +93,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="updateModalLabel">添加教材</h4>
+                <h4 class="modal-title" id="updateModalLabel">添加管理员</h4>
             </div>
             <div class="modal-body">
                 <form id="updatebook" action="#" role="form" method="post">

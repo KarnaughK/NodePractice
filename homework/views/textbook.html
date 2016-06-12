@@ -28,10 +28,10 @@
             $.post('/textbook/select', {_id: bookid}, function (reData) {
                 if (reData && reData.status) {
                     //给弹出框各个输入框赋值
-                    $('#uBookId').val(reData.data.bookId)
-                    $('#uName').val(reData.data.name)
-                    $('#uPress').val(reData.data.press)
-                    $('#uPrice').val(reData.data.price)
+                    $('#uBookId').val(reData.data.bookId);
+                    $('#uName').val(reData.data.name);
+                    $('#uPress').val(reData.data.press);
+                    $('#uPrice').val(reData.data.price);
                     $('#uSupplier').val(reData.data.supplier);
                     $('#uId').val(reData.data._id);
 
@@ -181,7 +181,7 @@
                             <td></td>
                             <td>
                                 <!--注意。很关键。一个宽度为0px的看不到的input。用来存储_id字段的值-->
-                                <input id="uId" style="width: 0px;" name="_id"/>
+                                <input id="uId" style="width: 0px;height:0px;" name="_id"/>
                             </td>
                         </tr>
                     </table>

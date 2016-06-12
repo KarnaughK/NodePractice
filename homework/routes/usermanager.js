@@ -7,7 +7,7 @@ module.exports = function (app) {
         var Cart = global.dbHelper.getModel('user');
         if (req.session.user) {
             Cart.find({}, function (error, docs) {
-                res.render('user');
+                res.render('usermanager',{user: docs});
             });
         } else {
             res.redirect('/login');
