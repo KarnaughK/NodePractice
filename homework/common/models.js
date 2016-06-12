@@ -30,25 +30,25 @@ module.exports = {
     },
     profession: {//专业
         name: String,//专业名
-        departmentId: String,//院系id
-        departmentName: String//院系名称
+        dId: String,//院系id
+        dName: String//院系名称
     },
     grade: {//年级
         name: String,//年级名
         grade: Number,//年级
-        professionId: String,//专业id
-        professionName: String,//专业名称
-        departmentId: String,//院系id
-        departmentName: String//院系名称
+        pId: String,//专业id
+        pName: String,//专业名称
+        dId: String,//院系id
+        dName: String//院系名称
     },
     class: {//班级
         classname: String,//班级名
-        gradeId: String,//年级id
-        gradeName: String,//年级名称
-        professionId: String,//专业id
-        professionName: String,//专业名称
-        departmentId: String,//院系id
-        departmentName: String//院系名称
+        gId: String,//年级id
+        gName: String,//年级名称
+        pId: String,//专业id
+        pName: String,//专业名称
+        dId: String,//院系id
+        dName: String//院系名称
     },
     stock: {//库存表
         bookId: {type: String},//教材编号
