@@ -2,9 +2,193 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/usermanager.css" rel="stylesheet" media="screen">
+    <script src="/javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
     <title>Title</title>
-</head>
-<body>
+    <script type="text/javascript">
+        function addUserManager() {
+            var data = $("#adduser").serialize();
 
+            //$.post("接口位置","数据","回掉方法")
+            $.post('/usermanager/add', data, function (reData) {
+                if (reData && reData.status) {
+                    //刷新
+                    location.reload();
+                    $('#addModal').modal('hide')
+                } else {
+                    //弹出一个警告框
+                    alert(reData.msg);
+                }
+            });
+        }
+        //查询数据,并显示更新框
+        function showUpdate(name) {
+            $.post('/usermanager/select', {_id: name}, function (reData) {
+                if (reData && reData.status) {
+                    //给弹出框各个输入框赋值
+                    $('#uName').val(reData.data.name)
+                    $('#uPassword').val(reData.data.password)
+                    $('#uId').val(reData.data._id);
+
+                    //显示弹出框
+                    $('#updateModal').modal('show');
+                } else {
+                    //弹出一个警告框
+                    alert(reData.msg);
+                }
+            });
+        }
+        //更新数据
+        function updateUserManager() {
+            var data = $("#updateuser").serialize();
+
+            //$.post("接口位置","数据","回掉方法")
+            $.post('/usermanager/update', data, function (reData) {
+                if (reData && reData.status) {
+                    $('#updateModal').modal('hide')
+                    //刷新
+                    location.reload();
+                } else {
+                    //弹出一个警告框
+                    alert(reData.msg);
+                }
+            });
+        }
+    </script>
+    </head>
+<body>
+<div style="margin:50px auto;width: 900px;">
+    <div>
+        <div>
+            <div style="float:right;">
+
+                <button type="button" class="btn  btn-xs btn-success" data-toggle="modal" data-target="#addModal">
+                    添加教材
+                </button>
+            </div>
+            <h2>教材信息管理</h2>
+        </div>
+        <div>
+            <table border="0" class="table table-striped">
+                <tr>
+                    <th class="booktable-bookId">教材编号</th>
+                    <th class="booktable-name">教材名称</th>
+                    <th class="booktable-price">价格</th>
+                    <th class="booktable-press">出版社</th>
+                    <th class="booktable-supplier">供应商</th>
+                    <th class="booktable-operate">操作</th>
+                </tr>
+                <%for(var i in book){%>
+                <tr>
+                    <td class="booktable-bookId"><%=book[i].bookId%></td>
+                    <td class="booktable-name"><%=book[i].name%></td>
+                    <td class="booktable-price"><%=book[i].price%>¥</td>
+                    <td class="booktable-press"><%=book[i].press%></td>
+                    <td class="booktable-supplier"><%=book[i].supplier%></td>
+                    <td class="booktable-operate">
+                        <button class="btn btn-primary btn-xs" onclick="showUpdate('<%=book[i]._id%>')">修改</button>
+                        <a href="/textbook/delete/<%=book[i]._id%>" class="btn btn-primary btn-xs">删除</a>
+                    </td>
+                </tr>
+                <%}%>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- 添加教材弹出框 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document" style="width: 600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加教材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addbook" action="#" role="form" method="post">
+                    <table border="0">
+                        <tr>
+                            <td>教材编号</td>
+                            <td><input style="margin: 10px;" type="text" class="form-control" name="bookId"/>
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;教材名称</td>
+                            <td><input style="margin: 10px;" type="text" class="form-control" name="name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出版社</td>
+                            <td><input style="margin: 10px;" class="form-control" name="press"/></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格</td>
+                            <td><input style="margin: 10px;" class="form-control" name="price"/></td>
+                        </tr>
+                        <tr>
+                            <td>供应商</td>
+                            <td><input style="margin: 10px;" class="form-control" name="supplier"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addTextBook()">添 加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 更新教材弹出框 -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel">
+    <div class="modal-dialog" role="document" style="width: 600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="updateModalLabel">添加教材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="updatebook" action="#" role="form" method="post">
+                    <table border="0">
+                        <tr>
+                            <td>教材编号</td>
+                            <td>
+                                <input id="uBookId" style="margin: 10px;" type="text" class="form-control"
+                                       name="bookId" value=""/>
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;教材名称</td>
+                            <td>
+                                <input id="uName" style="margin: 10px;" type="text" class="form-control" name="name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出版社</td>
+                            <td>
+                                <input id="uPress" style="margin: 10px;" class="form-control" name="press"/>
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格</td>
+                            <td>
+                                <input id="uPrice" style="margin: 10px;" class="form-control" name="price"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>供应商</td>
+                            <td>
+                                <input id="uSupplier" style="margin: 10px;" class="form-control" name="supplier"/>
+                            </td>
+                            <td></td>
+                            <td>
+                                <!--注意。很关键。一个宽度为0px的看不到的input。用来存储_id字段的值-->
+                                <input id="uId" style="width: 0px;" name="_id"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="updateTextBook()">保 存</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

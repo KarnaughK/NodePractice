@@ -3,7 +3,7 @@
  * @param app
  */
 module.exports = function (app) {
-    //查看购物车商品
+    //查看教材
     app.get('/textbook', function (req, res) {
         var Cart = global.dbHelper.getModel('textbook');
         if (req.session.user) {
