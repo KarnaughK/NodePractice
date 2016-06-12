@@ -42,7 +42,7 @@
         }
         //更新数据
         function updateUserManager() {
-            var data = $("#updateusermanager").serialize();
+            var data = $("#updateuser").serialize();
 
             //$.post("接口位置","数据","回掉方法")
             $.post('/usermanager/update', data, function (reData) {
@@ -57,9 +57,9 @@
             });
         }
     </script>
-    </head>
+</head>
 <body>
-<div style="margin:50px auto;width: 900px;">
+<div style="margin:30px auto;width: 800px;">
     <div>
         <div>
             <h2>管理员信息管理</h2>
@@ -87,54 +87,40 @@
 </div>
 <!-- 更新教材弹出框 -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel">
-    <div class="modal-dialog" role="document" style="width: 600px;">
+    <div class="modal-dialog" role="document" style="width: 300px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="updateModalLabel">添加管理员</h4>
+                <h4 class="modal-title" id="updateModalLabel">修改管理员</h4>
             </div>
             <div class="modal-body">
-                <form id="updatebook" action="#" role="form" method="post">
+                <form id="updateuser" action="#" role="form" method="post">
                     <table border="0">
                         <tr>
-                            <td>教材编号</td>
+                            <td>用户名</td>
                             <td>
-                                <input id="uBookId" style="margin: 10px;" type="text" class="form-control"
-                                       name="bookId" value=""/>
-                            </td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;教材名称</td>
-                            <td>
-                                <input id="uName" style="margin: 10px;" type="text" class="form-control" name="name"/>
+                                <input id="uName" style="margin: 10px;" type="text" class="form-control"
+                                       name="name" value=""/>
                             </td>
                         </tr>
                         <tr>
-                            <td>出版社</td>
+                            <td>密码</td>
                             <td>
-                                <input id="uPress" style="margin: 10px;" class="form-control" name="press"/>
-                            </td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格</td>
-                            <td>
-                                <input id="uPrice" style="margin: 10px;" class="form-control" name="price"/>
+                                <input id="uPassword" style="margin: 10px;" class="form-control" name="password"/>
                             </td>
                         </tr>
                         <tr>
-                            <td>供应商</td>
-                            <td>
-                                <input id="uSupplier" style="margin: 10px;" class="form-control" name="supplier"/>
-                            </td>
-                            <td></td>
-                            <td>
                                 <!--注意。很关键。一个宽度为0px的看不到的input。用来存储_id字段的值-->
-                                <input id="uId" style="width: 0px;" name="_id"/>
+                                <input id="uId" style="width: 0px;height: 0px;" name="_id"/>
                             </td>
                         </tr>
                     </table>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="updateTextBook()">保 存</button>
+                <button type="button" class="btn btn-primary" onclick="updateUserManager()">保 存</button>
             </div>
         </div>
     </div>
